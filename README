@@ -1,0 +1,34 @@
+Description: A stock market web application that allows users to login with secure credentials and simulate a trading environment (no real trades are placed). Orders are placed and exercised if the price is the same as the ask. 
+
+
+The User Experience:
+  - Portfolio graph view that shows gains/losses
+  - Individual stock view (graph)
+  - View assets
+  - View OPEN/CLOSED orders
+  
+  
+The Stock (Graph) View:
+  - The graph line should follow the current reported price for the current stock. 
+  - The graph should have two phantom lines, one to represent the ESTIMATED high, one to represent the ESTIMATED low 
+  - Each point should represent a specific point in time for a stocks' lifetime
+  
+  
+Technologies to Consider:
+  - ReactJS
+  - Bootstrap (for UI elements)
+  - ExpressJS
+  - NextJS
+  - PostgreSQL
+  - MongoDB
+  - MySQL
+  
+  
+User Profile Data Structure: This data structure should represent one single user and all of their data.
+  - Username/Password
+  - Positions (assets owned, successfully placed order)
+  - Orders (ticket, qty, price, etc)
+    
+
+  
+  
