@@ -30,5 +30,12 @@ User Profile Data Structure: This data structure should represent one single use
   - Orders (ticket, qty, price, etc)
     
 
-  
+The RESTful API: Essentially allow the user to query for relevant information about a stock
+  - Provides endpoints for the user to access specific information about their account
+  - Get price of specific stock
+  - Get historical prices
+  - Get running average over x amount of days
+  - Market Cap
+  - Etc
+    
   
