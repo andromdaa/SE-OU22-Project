@@ -1,0 +1,11 @@
+.trackButton{
+    height:100px;
+    width:200px;
+    font-size:32pt;
+}
+.trainButton{
+    height:100px;
+    width:200px;
+    font-size:32pt;
+    float:right;
+}
