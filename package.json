@@ -1,0 +1,25 @@
+{
+  "name": "se-ou22-project",
+  "version": "1.0.0",
+  "description": "Description: A stock market web application that allows users to login with secure credentials and simulate a trading environment (no real trades are placed). Orders are placed and exercised if the price is the same as the ask.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andromdaa/SE-OU22-Project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andromdaa/SE-OU22-Project/issues"
+  },
+  "homepage": "https://github.com/andromdaa/SE-OU22-Project#readme",
+  "dependencies": {
+    "@google-cloud/firestore": "^6.3.0",
+    "crypto-js": "^4.1.1",
+    "express": "^4.18.1",
+    "mysql": "^2.18.1"
+  }
+}
