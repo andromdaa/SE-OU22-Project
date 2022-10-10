@@ -38,7 +38,6 @@ export default function AuthModule(props) {
     }
 
     let submitType;
-
     let content = (
         <div>
             <input type="text" placeholder="username" onChange={(e) => handleChange(e, 'username')}/>
