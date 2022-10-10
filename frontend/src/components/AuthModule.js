@@ -42,7 +42,7 @@ export default function AuthModule(props) {
         <div>
             <input type="text" placeholder="username" onChange={(e) => handleChange(e, 'username')}/>
             <br/>
-            <input type="password" placeholder="password" onChange={(e) => handleChange(e, 'password')}/>
+            <input type="text" placeholder="password" onChange={(e) => handleChange(e, 'password')}/>
             <br/>
         </div>
     );

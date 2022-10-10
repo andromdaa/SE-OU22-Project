@@ -7,12 +7,14 @@ function hashCredentials(input) {
     return hashed.toString(Hex);
 }
 
- function registerSuccess_callback(req, res) {
-     res.sendStatus(200);
+// remove uHash and pHash, this is to show off data being input into the database for the class demo
+ function registerSuccess_callback(req, res, uHash, pHash) {
+    res.sendStatus(200);
  }
 
  function registerFailure_callback(req, res) {
-    res.sendStatus(400);
+     console.log(`An error occurred and registration failed\n`);
+     res.sendStatus(200);
  }
 
  function loginSuccess_callback(req, res) {
@@ -21,7 +23,7 @@ function hashCredentials(input) {
  }
 
  function loginFailure_callback(req, res) {
-    res.sendStatus(400);
+     res.sendStatus(200);
  }
 
 export function logout(req, res) {
