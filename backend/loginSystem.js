@@ -14,7 +14,7 @@ function hashCredentials(input) {
 
  function registerFailure_callback(req, res) {
      console.log(`An error occurred and registration failed\n`);
-     res.sendStatus(200);
+     res.sendStatus(409);
  }
 
  function loginSuccess_callback(req, res) {
@@ -23,7 +23,7 @@ function hashCredentials(input) {
  }
 
  function loginFailure_callback(req, res) {
-     res.sendStatus(200);
+     res.sendStatus(409);
  }
 
 export function logout(req, res) {
