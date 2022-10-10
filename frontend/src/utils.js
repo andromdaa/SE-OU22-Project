@@ -1,14 +1,15 @@
 import axios from "axios";
 
-export const postEndpoint = (username, password, endpoint) => {
-    if((username === '' || password.length <= 6) && endpoint !== 'logout') return new Promise(() => false);
+export const postEndpoint = (gusername, gpassword, endpoint) => {
+    if((gusername === '' || gpassword.length <= 6) && endpoint !== 'logout') return new Promise(() => false);
 
     return axios({
-        url: `http://0.0.0.0:9000/${endpoint}`,
+        url: `http://10.1.99.36:9000/${endpoint}`,
+        mode: 'no-cors',
         method: 'post',
         data: {
-            username: username,
-            password: password,
+            username: gusername,
+            password: gpassword,
         }
     });
 };

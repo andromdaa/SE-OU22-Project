@@ -41,17 +41,8 @@ function secure_pass(req, res, next) {
 export let connection = createDBConnection();
 export let app = express();
 
-app.use(session({
-    name: "seproject",
-    store: sessionStore,
-    secret: process.env.APP_SECRET,
-    saveUninitialized: false,
-    resave: false,
-    cookie: { maxAge: 60000 }
-}));
-
-app.use(urlencoded({ extended: true }));
 app.use(cors());
+app.use(urlencoded({ extended: true }));
 app.use(express.json());
 app.use(router);
 app.use(secure_pass);

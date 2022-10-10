@@ -9,26 +9,23 @@ function hashCredentials(input) {
 
 // remove uHash and pHash, this is to show off data being input into the database for the class demo
  function registerSuccess_callback(req, res) {
-    res.sendStatus(200);
+    return res.sendStatus(200);
  }
 
  function registerFailure_callback(req, res) {
-     console.log(`An error occurred and registration failed\n`);
-     res.sendStatus(400);
+     return res.sendStatus(400);
  }
 
  function loginSuccess_callback(req, res) {
-    req.session.authed = true;
-    res.sendStatus(200);
+     return res.sendStatus(200);
  }
 
  function loginFailure_callback(req, res) {
-     res.sendStatus(400);
+     return res.sendStatus(400);
  }
 
 export function logout(req, res) {
-    req.session.destroy();
-    res.sendStatus(200);
+    return res.sendStatus(200);
 }
 
 export function login(req, res) {
@@ -37,8 +34,8 @@ export function login(req, res) {
 
     connection.query(`SELECT password FROM login_info WHERE username = "${user}"`, (err, result) => {
         if (err != null || result.length <= 0) loginFailure_callback(req, res);
-        else if(result[0].password !== undefined && result[0].password === pass) loginSuccess_callback(req, res);
-        else loginFailure_callback(req, res);
+        else if(result[0].password === undefined || result[0].password !== pass) loginFailure_callback(req, res);
+        else loginSuccess_callback(req, res);
     });
 }
 

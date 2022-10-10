@@ -12,6 +12,8 @@ export default function AuthModule(props) {
 
     // sets the username when change is detected
     let handleChange = (event, type) => {
+        console.log(event.target.value);
+
         if (type === 'username') setUsername(event.target.value);
         else if (type === 'password') setPassword(event.target.value);
 
@@ -22,27 +24,39 @@ export default function AuthModule(props) {
     let postRegister = (username, password) => {
         postEndpoint(username, password, 'register')
             .then(() => dispatch(login()))
-            .catch((err) => console.log(err));
+            .catch(() => dispatch(logout()))
+            .finally(() => {
+                setUsername('');
+                setPassword('');
+            });
     }
 
     let postLogin = (username, password) => {
         postEndpoint(username, password, 'login')
             .then(() => dispatch(login()))
-            .catch(() => dispatch(logout()));
+            .catch(() => dispatch(logout()))
+            .finally(() => {
+                setUsername('');
+                setPassword('');
+            });
     }
 
     let postLogout = (username, password) => {
         postEndpoint(username, password, 'logout')
             .then(() => dispatch(logout()))
-            .catch(() => dispatch(logout()));
+            .catch(() => dispatch(logout()))
+            .finally(() => {
+                setUsername('');
+                setPassword('');
+            });
     }
 
     let submitType;
     let content = (
         <div>
-            <input type="text" placeholder="username" onChange={(e) => handleChange(e, 'username')}/>
+            <input type="text" placeholder="username" value={username} onChange={(e) => handleChange(e, 'username')}/>
             <br/>
-            <input type="text" placeholder="password" onChange={(e) => handleChange(e, 'password')}/>
+            <input type="text" placeholder="password" value={password} onChange={(e) => handleChange(e, 'password')}/>
             <br/>
         </div>
     );
