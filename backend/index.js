@@ -41,7 +41,10 @@ function secure_pass(req, res, next) {
 export let connection = createDBConnection();
 export let app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: 'http://10.1.99.36:3000',
+}));
+
 app.use(urlencoded({ extended: true }));
 app.use(express.json());
 app.use(router);
