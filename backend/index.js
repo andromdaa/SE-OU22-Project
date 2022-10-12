@@ -42,7 +42,7 @@ export let connection = createDBConnection();
 export let app = express();
 
 app.use(cors({
-    origin: 'http://10.1.99.36:3000',
+    origin: 'http://104.154.220.135:3000',
 }));
 
 app.use(urlencoded({ extended: true }));
