@@ -1,54 +1,37 @@
 import express, {urlencoded} from 'express';
-import session from 'express-session';
-import mysql from 'mysql';
-import MySQLStore from 'express-mysql-session';
+import {MongoClient, ServerApiVersion } from 'mongodb';
 import * as dotenv from 'dotenv';
-import { router } from './routing.js';
+import { authRouter } from './endpoints/authEndpoints.js';
+import symRouter from './api/market_api.js';
+
 import cors from 'cors';
 
 dotenv.config();
 
-// Load mysql session store, mysql and session configs
-let mysqlStore = MySQLStore(session);
-
-//  create the session store to access mysql session info
-export let sessionStore = new mysqlStore({
-    connectionLimit: 5,
-    host: process.env.APP_HOST,
-    port: process.env.APP_PORT,
-    user: process.env.APP_USER,
-    password: process.env.APP_PASS,
-    database: process.env.APP_DB,
-    expiration: 86400000,
-    createDatabaseTable: true
+let client = new MongoClient(process.env.MONGO_URL, {
+    sslKey: process.env.PEM_FILE_DIR,
+    sslCert: process.env.PEM_FILE_DIR,
+    serverApi: ServerApiVersion.v1
 });
 
-function createDBConnection() {
-    return mysql.createPool({
-        connectionLimit: 5,
-        host: process.env.APP_HOST,
-        user: process.env.APP_USER,
-        password: process.env.APP_PASS,
-        database: process.env.APP_DB,
-    });
+function getCollection(name) {
+    client.connect().catch((err) => console.log(err));
+    let database = client.db("se_project");
+    return database.collection(name);
 }
 
-function secure_pass(req, res, next) {
-    if (req.session.authed || req.path==='/login') next();
-    else res.redirect("/login");
-}
-
-export let connection = createDBConnection();
+export let collection = getCollection("users");
 export let app = express();
 
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: '*',
 }));
 
 app.use(urlencoded({ extended: true }));
 app.use(express.json());
-app.use(router);
-app.use(secure_pass);
+
+app.use(symRouter);
+app.use(authRouter);
 
 // listening on this port
 app.listen(9000, () => {

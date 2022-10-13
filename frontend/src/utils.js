@@ -1,24 +1,15 @@
 import axios from "axios";
 import {login, logout} from "./features/user/userSlice";
 
-export const postEndpoint = (username, password, endpoint, dispatcher, setError) => {
-    if((username === '' || password.length <= 6) && endpoint !== 'logout') return;
+export const postEndpoint = (endpoint, username, password) => {
+    if(username.length <= 0 || password.length < 5) return Promise.reject(Error());
 
-    axios({
-        url: `http://104.154.220.135:9000/${endpoint}`,
+    return axios({
+        url: `http://localhost:9000/${endpoint}`,
         method: 'post',
         data: {
             username: username,
             password: password,
         }
-    })
-        .then((res) => {
-            if(endpoint === 'logout') dispatcher(logout());
-            else dispatcher(login());
-            setError(false);
-        })
-        .catch((err) => {
-            dispatcher(logout());
-            setError(true);
-        });
+    });
 };
