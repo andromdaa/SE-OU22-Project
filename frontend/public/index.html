@@ -33,15 +33,58 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+    <div id="loginPage">
+    <!--- LOGIN PAGE COMPONENTS --->
+    <!--- Need text for username/password, button for LOGIN, logo at top left, create new account link at bottom  --->
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+    <H1>TRACK <!--- image of "N" logo here ---> <image src="N.png" width="100" height = "50"></image> TRAIN</H1>
+
+    <H3>Username:<textarea id="usernameBox" name="username" rows="1" cols="30"></textarea></H3>
+
+    <H3>Password:<textarea id="passwordBox" name="password" rows="1" cols="30" ></textarea></H3>
+    <!--- Need login button to check username and password against database and send you to landing page.  --->
+
+    <button id="loginButton">Login</button>
+      <!--- add react code here to update page with create account info and then redirect back to login "page" --->
+    <h6>New user? <a href="">Create Account Here</a></h6>
+    </div>
+  <div id="landingPage">
+    <!---LANDING PAGE COMPONENTS--->
+    <H1>TRACK <!--- image of "N" logo here ---> <image src="N.png" width="100" height = "50"></image> TRAIN</H1>
+    <!---Needs two big buttons(top left and top right that say "TRACK" and "TRAIN"--->
+    <!---Track links to your page of stocks you are keeping track of, with graphs and data--->
+    <!---Train links to your training page where you can paper trade and learn strategies.--->
+
+    <!--- add react code here to update page to display the "track" page --->
+    <button id="trackButton"><a href="trackPage.html">TRACK</a></button>
+    <!--- add react code here to update page to display the "train" page --->
+    <button id="trainButton"><a href="trainPage.html">TRAIN</a></button>
+    <!--- add react code here to update page to redirect back to login "page" --->
+    <h4><a href="" class="logoutButton">Logout</a></h4></H1>
+
+  </div>
+  <div id="trackPage">
+    <!--- TRACKING PAGE COMPONENTS --->
+      <!--- will implement API connections here to update stock tickers --->
+
+
+    <!--- need a back button somewhere that updates back to landing page. --->
+
+  </div>
+  <div id="trainPage">
+    <!--- TRAINING PAGE COMPONENTS --->
+    <!--- will implement API connections here as well with delayed market data
+    and future training documentation / videos, etc. --->
+
+    <!--- need a back button somewhere that updates back to landing page. --->
+
+  </div>
+  <div id="createUserPage">
+    <!--- CREATE USER PAGE COMPONENTS --->
+
+
+  </div>
+
   </body>
 </html>

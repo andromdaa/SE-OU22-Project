@@ -2,6 +2,18 @@ body {
     background: #f8f8ff;
     color: #1B365C;
 }
+.trackButton{
+    height:100px;
+    width:200px;
+    font-size:32pt;
+}
+.trainButton{
+    height:100px;
+    width:200px;
+    font-size:32pt;
+    float:right;
+}
+
 
 /*// F1F0EA*/
 /*// E8F1F2*/
