@@ -8,11 +8,7 @@ import cors from 'cors';
 
 dotenv.config();
 
-let client = new MongoClient(process.env.MONGO_URL, {
-    sslKey: process.env.PEM_FILE_DIR,
-    sslCert: process.env.PEM_FILE_DIR,
-    serverApi: ServerApiVersion.v1
-});
+const client = new MongoClient(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 function getCollection(name) {
     client.connect().catch((err) => console.log(err));

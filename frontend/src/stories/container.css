@@ -1,0 +1,18 @@
+.container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    max-width: 20%;
+}
+
+.grid_container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.header {
+    background-color: #f8f4f8;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-end;
+}

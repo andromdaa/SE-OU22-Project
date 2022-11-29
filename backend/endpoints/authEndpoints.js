@@ -18,6 +18,10 @@ function hashCredentials(input) {
     });
 }
 
+// TODO
+function generateAPIKey(user) {}
+
+
 // used to generate random api keys for users
 function generateKey(size = 64) {
     const buffer = crypto.randomBytes(size);
@@ -55,8 +59,8 @@ export function register(req, res) {
                 api_key: generateKey(),
                 watched_symbols: {}
             })
-                .then(() => { return res.sendStatus(200) })
-                .catch(() => { return res.sendStatus(400) })
+                .then((data) => { return res.sendStatus(200) })
+                .catch((err) => { return res.sendStatus(400) })
         });
 }
 
@@ -64,6 +68,7 @@ export let authRouter = express.Router();
 
 // leave it, the app breaks if its not here
 authRouter.use((req, res, next) => next());
+
 // user account authentication
 authRouter.post("/login", (req, res) => login(req, res));
 authRouter.post("/register", (req, res) => register(req, res));

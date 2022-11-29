@@ -1,13 +1,14 @@
 body {
-    background: #f8f8ff;
-    color: #1B365C;
+    background: #f5fbff;
+    color: #f5fbff;
 }
-.trackButton{
+
+.trackButton {
     height:100px;
     width:200px;
     font-size:32pt;
 }
-.trainButton{
+.trainButton {
     height:100px;
     width:200px;
     font-size:32pt;

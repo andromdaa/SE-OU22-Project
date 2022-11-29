@@ -1,6 +1,6 @@
 import {Fragment} from 'react';
 import {Container, TextField} from "@mui/material";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUsername, setPassword } from "../../../features/auth/authSlice";
 
 export default function Inputs() {

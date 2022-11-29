@@ -6,9 +6,12 @@ import {store} from "./app/store";
 function App() {
 
     return (
-        <Provider store={store}>
-            <LoginRegister/>
-        </Provider>
+        <div style={{ backgroundColor: "#f5fbff" }}>
+            <Provider store={store}>
+                <LoginRegister/>
+            </Provider>
+        </div>
+
     );
 }
 
