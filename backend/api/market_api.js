@@ -22,10 +22,7 @@ function postToAPI(req, res, url='https://yahoo-finance97.p.rapidapi.com/stock-i
         .then((data) => res.status(200).send(JSON.stringify({ "data": data.data.data[req.params.requested] })))
 }
 
-
-
 // ### PRICES ####
-
 // TODO: make the route .../price/current then have .../symbol/price return current, bid, ask
 symRouter.get("/api/:symbol/price", function (req, res) {
     // get the data from the api
@@ -70,6 +67,85 @@ symRouter.get('/api/:symbol/annual/high', function (req, res) {
 symRouter.get('/api/:symbol/annual/low', function (req, res) {
     // get the data from the api
     req.params.requested = 'fiftyTwoWeekLow';
+    postToAPI(req, res);
+});
+
+
+symRouter.get('/api/:symbol/close/prev', function (req, res) {
+    // get the data from the api
+    req.params.requested = 'previousClose';
+    postToAPI(req, res);
+});
+
+symRouter.get('/api/:symbol/open', function (req, res) {
+    // get the data from the api
+    req.params.requested = 'regularMarketOpen';
+    postToAPI(req, res);
+});
+
+symRouter.get('/api/:symbol/beta', function (req, res) {
+    // get the data from the api
+    req.params.requested = 'beta';
+    postToAPI(req, res);
+});
+
+symRouter.get('/api/:symbol/earnings/growth', function (req, res) {
+    // get the data from the api
+    req.params.requested = 'earningsGrowth';
+    postToAPI(req, res);
+});
+
+symRouter.get('/api/:symbol/revenue/growth', function (req, res) {
+    // get the data from the api
+    req.params.requested = 'fiftyTwoWeekLow';
+    postToAPI(req, res);
+});
+
+symRouter.get('/api/:symbol/address', function (req, res) {
+    // get the data from the api
+    req.params.requested = 'address1';
+    postToAPI(req, res);
+});
+
+symRouter.get('/api/:symbol/earnings/quarter', function (req, res) {
+    // get the data from the api
+    req.params.requested = 'earningsQuarterlyGrowth';
+    postToAPI(req, res);
+});
+
+symRouter.get('/api/:symbol/volume', function (req, res) {
+    // get the data from the api
+    req.params.requested = 'regularMarketVolume';
+    postToAPI(req, res);
+});
+
+symRouter.get('/api/:symbol/sector', function (req, res) {
+    // get the data from the api
+    req.params.requested = 'sector';
+    postToAPI(req, res);
+});
+
+symRouter.get('/api/:symbol/dividend/yield', function (req, res) {
+    // get the data from the api
+    req.params.requested = 'trailingAnnualDividendYield';
+    postToAPI(req, res);
+});
+
+symRouter.get('/api/:symbol/dividend/rate', function (req, res) {
+    // get the data from the api
+    req.params.requested = 'trailingAnnualDividendRate';
+    postToAPI(req, res);
+});
+
+symRouter.get('/api/:symbol/volume/avg', function (req, res) {
+    // get the data from the api
+    req.params.requested = 'averageVolume';
+    postToAPI(req, res);
+});
+
+symRouter.get('/api/:symbol/target/avg', function (req, res) {
+    // get the data from the api
+    req.params.requested = 'targetMeanPrice';
     postToAPI(req, res);
 });
 

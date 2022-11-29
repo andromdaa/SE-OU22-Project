@@ -2,19 +2,21 @@
     display: inline-flex;
     justify-content: center;
     flex-direction: column;
-    color: #ffffff;
     min-width: 0;
 }
 
 .grid_items {
     flex: 1 0 25%; /* explanation below */
-}
-
-body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f0f6fa;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
 }
 
 .card {
     user-select: none;
 }
+
+.card:hover {
+    background-color: #f0f6fa;
+}
+

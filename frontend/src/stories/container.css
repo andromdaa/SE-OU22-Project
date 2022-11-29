@@ -5,14 +5,41 @@
     max-width: 20%;
 }
 
+.center {
+    display: flex;
+    justify-content: center;
+}
+
+.center_column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.login_box {
+    margin: 1%;
+}
+
+.center input {
+    border-radius: 10px;
+}
+
 .grid_container {
+    margin-left: 25%;
+    margin-right: 25%;
     display: flex;
     flex-wrap: wrap;
 }
 
 .header {
-    background-color: #f8f4f8;
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-end;
+    margin-left: auto;
+    margin-right: 10px;
+}
+
+.app_border {
+    margin-top: 1%;
 }

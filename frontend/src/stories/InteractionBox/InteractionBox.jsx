@@ -33,7 +33,7 @@ export const InteractionBox = ({ sx, type, msg, ...props }) => {
             <TextField sx={{ mb: '4%' }} placeholder="username" onChange={(e) => dispatch(setUsername(e.target.value))} value={username}></TextField>
             <TextField sx={{ mb: '4%' }} type="password" placeholder="password" onChange={(e) => dispatch(setPassword(e.target.value))} value={password}></TextField>
             <Mbutton sx={{ mb: '4%' }} variant="outlined" onClick={() => post(type.toLowerCase(), username, password)}>{type}</Mbutton>
-            <Fade in={status.value} timeout={ 1000 } out={true}>
+            <Fade in={status.value} timeout={ 1000 }>
                 <Alert sx={{ mb: '4%' }} severity={ status.severity }>{ status.data }</Alert>
             </Fade>
         </div>
