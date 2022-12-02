@@ -5,10 +5,6 @@ import {connect, useSelector} from "react-redux";
 import mapStateToProps, {setFavorites, setSymbols} from "../../features/user/userSlice";
 
 const StockGrid = ({ stock_cards, ...props }) => {
-    // todo:
-    //  - populate favorites / watched symbols
-    //  - click to open detailed stock view (detailed stock view page that makes call to api and then just push that to history?)
-
     useEffect( () => {
         (async () => {
             let config = {

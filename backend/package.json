@@ -16,6 +16,8 @@
     "express-mysql-session": "^2.1.8",
     "express-session": "^1.17.3",
     "mongodb": "4.10",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "swagger-autogen": "^2.22.0",
+    "swagger-ui-express": "^4.6.0"
   }
 }

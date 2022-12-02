@@ -5,8 +5,8 @@ import {postAPI} from "../../../utils";
 import axios from "axios";
 import mapStateToProps, {removeFavorite, setFavorites, setSymbols} from "../../../features/user/userSlice";
 import {connect} from "react-redux";
-import {navigate} from "@storybook/addon-links";
 import {useNavigate} from "react-router-dom";
+import {createWorkerFactory, useWorker} from "@shopify/react-web-worker";
 
 const StockCard = ({ symbol, ...props }) => {
     const [ gain, setGain ] = useState(false);
@@ -15,30 +15,45 @@ const StockCard = ({ symbol, ...props }) => {
     const [ pChange, setChange ] = useState(0);
 
     const navigate = useNavigate();
+    const createWorker = createWorkerFactory(() => import('../../workers/api.worker'));
+    const worker = useWorker(createWorker);
 
+    let update = 0;
     useEffect(() => {
-        const interval = setInterval(() => {
-            postAPI(symbol).then((res) => {
-                res = res.data.data;
-                setGain(parseInt(res.previousClose) < parseInt(res.currentPrice));
-                setName(symbol);
-                setPrice(res.ask);
-
-                let change = parseInt(res.previousClose) - parseInt(res.currentPrice);
-                change /= parseInt(res.previousClose);
-                change *= 100;
-                setChange(Math.abs(change));
+        ( async () => {
+            let message = await worker.default({
+                url: `http://localhost:9000/api/${symbol}`,
+                options: {
+                    method: 'get',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                }
             });
-        }, 10000);
 
-        return () => clearInterval(interval);
-    }, [symbol]);
+            message = message.data;
+
+            setGain(parseInt(message.previousClose) < parseInt(message.currentPrice));
+            setName(symbol);
+            setPrice(message.ask);
+
+            let change = parseInt(message.previousClose) - parseInt(message.currentPrice);
+            change /= parseInt(message.previousClose);
+            change *= 100;
+            setChange(Math.abs(change));
+
+        })();
+
+        setTimeout(() => update++, 5000);
+    }, [update]);
 
     // remove stock when clicked
     let handleClick = async (symbol, username, e) => {
         if(e.type === 'click') {
             navigate(`/stock/detailed/${symbol}`);
         } else if(e.type === 'contextmenu') {
+            e.preventDefault();
+
             let config = {
                 method: 'post',
                 url: 'http://localhost:9000/favorites/remove',
@@ -59,7 +74,7 @@ const StockCard = ({ symbol, ...props }) => {
     }
 
     return (
-        <div className="grid_items card"
+        <div className="grid_items card grow"
              onClick={ (event) => handleClick(symbol, props.username, event) }
              onContextMenu={ (event) => handleClick(symbol, props.username, event) }>
             <Box elevation={8} sx={{

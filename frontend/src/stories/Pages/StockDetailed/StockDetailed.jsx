@@ -1,47 +1,64 @@
 import React, {useEffect, useState} from 'react';
 import './stockdetailed.css'
-import { postAPI } from "../../../utils";
 import {useParams} from "react-router-dom";
-let stock = {};
+import {createWorkerFactory, useWorker} from '@shopify/react-web-worker';
 
-function fillValues(data, callback) {
-    data = data.data.data;
+function fillValues(data) {
+    console.log(data);
 
-    stock = {
+    return {
         "prev_close":  data['previousClose'],
         "open": data['regularMarketOpen'],
         "beta": data['beta'],
         "bid": data['bid'],
         "earnings_growth": data['earningsGrowth'],
         "ask": data['ask'],
-        "revenue_growth": data['revenueGrowth'],
+        "day_high": data['dayHigh'],
+        "day_low": data['dayLow'],
         "annual_change": data['52WeekChange'],
-        "address": data['address1'],
+        "total_cash": data['totalCash'],
         "sector": data['sector'],
         "cap": data['marketCap'],
         "dividend_yield": data['trailingAnnualDividendYield'],
         "volume": data['regularMarketVolume'],
-        "dividend_rate": data['trailingAnnualDividendRate'],
+        "profit_margins": data['profitMargins'],
         "avg_volume": data['averageVolume'],
         "target_avg": data['targetMeanPrice']
     };
-
-    callback(stock)
 }
 
 export function StockDetailed({ ...props }) {
     let [ data, setData ] = useState( {} );
     let { symbol } = useParams();
 
-    console.log(symbol);
+    const formatter = new Intl.NumberFormat('en-US', {
+       style: 'currency',
+       currency: 'USD',
+    });
 
+    const createWorker = createWorkerFactory(() => import('../../workers/api.worker'));
+    const worker = useWorker(createWorker);
+
+    let update = 0;
     useEffect(() => {
-        const interval = setInterval(() => {
-            postAPI(symbol).then((res) => fillValues(res, setData));
-        }, 10000);
+        ( async () => {
+            const message = await worker.default({
+                url: `http://localhost:9000/api/${symbol}`,
+                options: {
+                    method: 'get',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                }
+            });
 
-        return () => clearInterval(interval);
-    }, [symbol])
+            let data = fillValues(message.data);
+            setData(data);
+
+        })();
+
+        setTimeout(() => update++, 5000);
+    }, [update]);
 
     return (
         <div className="detailed">
@@ -49,51 +66,51 @@ export function StockDetailed({ ...props }) {
                 <tbody>
                     <tr>
                         <th>Prev. Close:</th>
-                        <td>${data.prev_close}</td>
+                        <td>{formatter.format(parseFloat(data.prev_close))}</td>
                         <th>Market Cap:</th>
-                        <td>${data.cap}</td>
+                        <td>{formatter.format(data.cap)}</td>
                     </tr>
                     <tr>
                         <th>Open:</th>
-                        <td>${data.open}</td>
+                        <td>{formatter.format(parseFloat(data.open))}</td>
                         <th>Beta:</th>
-                        <td>{data.beta}</td>
+                        <td>{parseFloat(data.beta).toFixed(2)}</td>
                     </tr>
                     <tr>
                         <th>Bid:</th>
-                        <td>${data.bid}</td>
+                        <td>{formatter.format(parseFloat(data.bid))}</td>
                         <th>Earnings Growth</th>
-                        <td>{data.earnings_growth}%</td>
+                        <td>{data.earnings_growth ? parseFloat(data.earnings_growth) + "%" : "Not Tracked"}</td>
                     </tr>
                     <tr>
                         <th>Ask:</th>
-                        <td>${data.ask}</td>
-                        <th>Revenue Growth</th>
-                        <td>{data.revenue_growth}%</td>
+                        <td>{formatter.format(parseInt(data.ask))}</td>
+                        <th>Day's High</th>
+                        <td>{formatter.format(parseFloat(data.day_high).toFixed(2))}</td>
                     </tr>
                     <tr>
                         <th>Annual % Change</th>
-                        <td>{data.annual_change}%</td>
-                        <th>Physical Address</th>
-                        <td>{data.address}</td>
+                        <td>{parseFloat(data.annual_change).toFixed(2)}%</td>
+                        <th>Day's Low</th>
+                        <td>{formatter.format(parseFloat(data.day_low).toFixed(2))}</td>
                     </tr>
                     <tr>
                         <th>Sector</th>
                         <td>{data.sector}</td>
-                        <th>Dividend Yield</th>
-                        <td>{data.dividend_yield}%</td>
+                        <th>Total Cash</th>
+                        <td>{formatter.format(parseInt(data.total_cash).toFixed(2))}</td>
                     </tr>
                     <tr>
                         <th>Volume</th>
                         <td>{data.volume}</td>
-                        <th>Dividend Rate</th>
-                        <td>{data.dividend_rate}%</td>
+                        <th>Profit Margins</th>
+                        <td>{parseFloat(data.profit_margins).toFixed(2)}%</td>
                     </tr>
                     <tr>
                         <th>Avg. Volume</th>
                         <td>{data.avg_volume}</td>
                         <th>Avg. Target</th>
-                        <td>${data.target_avg}</td>
+                        <td>{formatter.format(parseFloat(data.target_avg))}</td>
                     </tr>
                 </tbody>
             </table>

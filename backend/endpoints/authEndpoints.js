@@ -1,5 +1,5 @@
 import express from 'express';
-import {collection, db} from '../index.js';
+import {app, collection, db} from '../index.js';
 import * as crypto from "crypto";
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
@@ -37,7 +37,7 @@ export function add_favorite(req, res) {
     let symbol = req.body.symbol;
 
     // make sure the collection does not already contain the symbol
-    collection.findOne({ _id: username })
+    let found = collection.findOne({ _id: username })
         .then((user) => {
             if(user.favorites.length >= 10 || user.favorites.includes(symbol)) return res.send({ status: "1" });
             else return res.send({ status: "0" });
@@ -49,7 +49,7 @@ export function add_favorite(req, res) {
             $addToSet: { favorites: symbol },
             $inc: { size: 1 }
         }
-    ).then((data) => { return res.send({ status: "0" }) });
+    );
 }
 
 export function remove_favorite(req, res) {
@@ -132,4 +132,3 @@ authRouter.post("/register", (req, res) => register(req, res));
 authRouter.post("/favorites/add", isAuthorized, (req, res) => add_favorite(req, res));
 authRouter.post("/favorites/remove", isAuthorized, (req, res) => remove_favorite(req, res));
 authRouter.post("/user", (req, res) => get_user(req, res));
-

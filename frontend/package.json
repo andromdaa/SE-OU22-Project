@@ -10,6 +10,7 @@
     "@mui/material": "^5.10.9",
     "@react-theming/storybook-addon": "^1.1.9",
     "@reduxjs/toolkit": "^1.8.6",
+    "@shopify/react-web-worker": "^5.0.6",
     "@storybook/addon-storysource": "^6.5.13",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -26,6 +27,7 @@
     "reduxjs-toolkit-persist": "^7.2.1",
     "sass": "^1.55.0",
     "storybook-addon-material-ui": "^0.9.0-alpha.24",
+    "swagger-ui-react": "^4.15.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -77,6 +79,7 @@
     "@storybook/testing-library": "^0.0.13",
     "babel-plugin-named-exports-order": "^0.0.2",
     "prop-types": "^15.8.1",
-    "webpack": "^5.75.0"
+    "webpack": "^5.75.0",
+    "worker-loader": "^3.0.8"
   }
 }

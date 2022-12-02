@@ -3,12 +3,11 @@ import {MongoClient, ServerApiVersion } from 'mongodb';
 import * as dotenv from 'dotenv';
 import { authRouter } from './endpoints/authEndpoints.js';
 import symRouter from './api/market_api.js';
-
 import cors from 'cors';
+import swaggerUi from "swagger-ui-express";
 
 dotenv.config();
 
-const client = new MongoClient(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 function getCollection(name) {
     client.connect().catch((err) => console.log(err));
@@ -20,9 +19,10 @@ function getDB() {
     return client.db("se_project");
 }
 
-export let collection = getCollection("users");
-export let app = express();
-export let db = getDB();
+const client = new MongoClient(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+export const collection = getCollection("users");
+export const app = express();
+export const db = getDB();
 
 app.use(cors({
     origin: '*',
@@ -33,6 +33,8 @@ app.use(express.json());
 
 app.use(symRouter);
 app.use(authRouter);
+
+
 
 // listening on this port
 app.listen(9000, () => {

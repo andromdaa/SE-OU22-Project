@@ -8,6 +8,8 @@ import Welcome from "./stories/Pages/Dash/Welcome";
 import mapStateToProps from "./features/user/userSlice"
 import {PersistGate} from "redux-persist/integration/react";
 import {StockDetailed} from "./stories/Pages/StockDetailed/StockDetailed";
+import SwaggerUI from "swagger-ui-react"
+import "swagger-ui-react/swagger-ui.css"
 
 function App() {
     return (
@@ -17,6 +19,7 @@ function App() {
                     <Routes>
                         <Route index element={<Welcome />} />
                         <Route path="/dash" element={ <Dash /> } />
+                        <Route path="/docs" element={ <SwaggerUI url={"./swagger.json"} /> } />
                         <Route path="/stock/detailed/:symbol" element={ <StockDetailed/> } />
                         <Route path="/login" element={<Login />} />
                     </Routes>
