@@ -68,7 +68,6 @@ export async function get_user(req, res) {
 
     await collection.findOne({ _id: username })
         .then((user) => {
-            console.log(user);
             return res.send(JSON.stringify(user));
     });
 }
