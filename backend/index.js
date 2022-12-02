@@ -16,8 +16,13 @@ function getCollection(name) {
     return database.collection(name);
 }
 
+function getDB() {
+    return client.db("se_project");
+}
+
 export let collection = getCollection("users");
 export let app = express();
+export let db = getDB();
 
 app.use(cors({
     origin: '*',

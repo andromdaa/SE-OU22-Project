@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import '../../container.css'
 import {Alert, Fade} from "@mui/material";
-import {InteractionBox} from "../../InteractionBox/InteractionBox";
+import InteractionBox from "../../InteractionBox/InteractionBox";
+import {connect} from "react-redux";
+import mapStateToProps from "../../../features/user/userSlice";
 
-export function Login({ ...props }) {
+function Login({ user, ...props }) {
     return <div>
-            <Fade in={true} timeout={ 1000 }>
+        <Fade in={true} timeout={ 1000 }>
                 <div className="center_column" style={{ marginTop: "5%"}}>
                     <h1>Welcome back to Track-N-Train</h1>
                 </div>
@@ -19,3 +21,5 @@ export function Login({ ...props }) {
             </div>
     </div>
 }
+
+export default connect(mapStateToProps)(Login);

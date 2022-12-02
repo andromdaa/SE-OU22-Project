@@ -18,15 +18,22 @@ function postToAPI(req, res, url='https://yahoo-finance97.p.rapidapi.com/stock-i
         },
         data: encodedParams
     })
-        // TODO: Flatten this
-        .then((data) => res.status(200).send(JSON.stringify({ "data": data.data.data[req.params.requested] })))
+        .then((data) => {
+            if(req.params.requested !== "") res.status(200).send(JSON.stringify({ "data": data.data.data[req.params.requested] }))
+            else res.status(200).send(JSON.stringify({ "data": data.data.data }));
+        })
 }
 
 // ### PRICES ####
-// TODO: make the route .../price/current then have .../symbol/price return current, bid, ask
 symRouter.get("/api/:symbol/price", function (req, res) {
     // get the data from the api
     req.params.requested = 'currentPrice';
+    postToAPI(req, res);
+});
+
+symRouter.get("/api/:symbol", function (req, res) {
+    // get the data from the api
+    req.params.requested = '';
     postToAPI(req, res);
 });
 
@@ -48,9 +55,6 @@ symRouter.get('/api/:symbol/cap', function (req, res) {
     req.params.requested = 'marketCap';
     postToAPI(req, res);
 });
-
-// ANNUAL ROUTES
-// TODO: add percentage option to all annual routes
 
 symRouter.get('/api/:symbol/annual/change', function (req, res) {
     // get the data from the api
@@ -97,7 +101,7 @@ symRouter.get('/api/:symbol/earnings/growth', function (req, res) {
 
 symRouter.get('/api/:symbol/revenue/growth', function (req, res) {
     // get the data from the api
-    req.params.requested = 'fiftyTwoWeekLow';
+    req.params.requested = 'revenueGrowth';
     postToAPI(req, res);
 });
 

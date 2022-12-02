@@ -1,11 +1,18 @@
 import express from 'express';
-import { collection } from '../index.js';
+import {collection, db} from '../index.js';
 import * as crypto from "crypto";
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 
 const saltRounds = 10;
 dotenv.config();
+
+function isAuthorized(req, res, next) {
+    if(!req.body.authorized) {
+        let err = new Error('not authorized');
+        return next(err);
+    } else return next();
+}
 
 // used to hash + salt password
 function hashCredentials(input) {
@@ -18,15 +25,54 @@ function hashCredentials(input) {
     });
 }
 
-// TODO
-function generateAPIKey(user) {}
-
-
 // used to generate random api keys for users
 function generateKey(size = 64) {
     const buffer = crypto.randomBytes(size);
     return buffer.toString('base64');
 }
+
+export function add_favorite(req, res) {
+    // no point in hashing username, already exposed in plain text
+    let username = req.body.username;
+    let symbol = req.body.symbol;
+
+    // make sure the collection does not already contain the symbol
+    collection.findOne({ _id: username })
+        .then((user) => {
+            if(user.favorites.length >= 10 || user.favorites.includes(symbol)) return res.send({ status: "1" });
+            else return res.send({ status: "0" });
+        }).catch((err) => { return res.send({ status: "2" }) });
+
+    collection.updateOne(
+        { _id: username},
+        {
+            $addToSet: { favorites: symbol },
+            $inc: { size: 1 }
+        }
+    ).then((data) => { return res.send({ status: "0" }) });
+}
+
+export function remove_favorite(req, res) {
+    // no point in hashing username, already exposed in plain text
+    let username = req.body.username;
+    let symbol = req.body.symbol;
+
+    collection.updateOne({ _id: username }, {$pull: { favorites: { $in: [ symbol ] }}, $inc: { size: -1}})
+        .then((data) => {
+            return res.sendStatus(200);
+        });
+}
+
+export async function get_user(req, res) {
+    let username = req.body.username;
+
+    await collection.findOne({ _id: username })
+        .then((user) => {
+            console.log(user);
+            return res.send(JSON.stringify(user));
+    });
+}
+
 
 export function login(req, res) {
     // no point in hashing username, already exposed in plain text
@@ -37,10 +83,18 @@ export function login(req, res) {
     collection.findOne({ _id: username })
         .then((data) => {     // user was found, check if passwords match
             bcrypt.compare(password, data.password, function (err, result) {
-                if(result) return res.sendStatus(200); // if result is defined, then password matched
+                if(result) {
+                    req.body.authorized = true;
+                    return res.sendStatus(200);
+                } // if result is defined, then password matched
                 else return res.sendStatus(401);
             });
-        }).catch(() => { return res.sendStatus(404)} );
+        }).catch((err) => { return res.sendStatus(404)} );
+}
+
+export function logout(req, res) {
+    req.body.authorized = false;
+    return res.sendStatus(200);
 }
 
 export function register(req, res) {
@@ -57,7 +111,9 @@ export function register(req, res) {
                 _id: username,
                 password: hash,
                 api_key: generateKey(),
-                watched_symbols: {}
+                symbols: [],
+                favorites: [],
+                size: 0,
             })
                 .then((data) => { return res.sendStatus(200) })
                 .catch((err) => { return res.sendStatus(400) })
@@ -71,5 +127,9 @@ authRouter.use((req, res, next) => next());
 
 // user account authentication
 authRouter.post("/login", (req, res) => login(req, res));
+authRouter.post("/logout", (req, res) => logout(req, res));
 authRouter.post("/register", (req, res) => register(req, res));
+authRouter.post("/favorites/add", isAuthorized, (req, res) => add_favorite(req, res));
+authRouter.post("/favorites/remove", isAuthorized, (req, res) => remove_favorite(req, res));
+authRouter.post("/user", (req, res) => get_user(req, res));
 

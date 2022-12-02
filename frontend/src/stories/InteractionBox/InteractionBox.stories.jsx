@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react';
 import { InteractionBox } from './InteractionBox';
-import {postEndpoint} from "../../utils";
+import {postAuth} from "../../utils";
 import {Provider, useSelector} from "react-redux";
 import {store} from "../../app/store";
 import { Button as Mbutton } from "@mui/material";

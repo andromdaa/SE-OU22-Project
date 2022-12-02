@@ -17,3 +17,11 @@ table th {
     padding-bottom: 5px;
 }
 
+.detailed {
+    border: solid black;
+    border-radius: 5px;
+    display: inline-flex;
+    margin-top: 10%;
+    margin-left: 40%;
+    align-items: center;
+}
