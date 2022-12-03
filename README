@@ -24,3 +24,16 @@ By right clicking on a ticker box it will remove it from your tracked tickers.
 
 Click on “DOCS” at top to see more information on APIs.
 
+OSS/LIBS USED:
+- ReactJS
+- MongoDB
+- Express
+- MUI (Material Theme UI)
+- React-Router
+- React-Redux
+- Redux-Persist
+- Swagger
+- StorybookJS
+
+
+
