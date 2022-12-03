@@ -1,5 +1,17 @@
 Description: A stock market web application that allows users to login with secure credentials and simulate a trading environment (no real trades are placed). Orders are placed and exercised if the price is the same as the ask. 
 
+Running Instructions:
+Download the code from the git, 
+open a terminal window in the backend folder and the front end folder.
+In backend folder:
+npm install
+node index.js
+In frontend folder:
+npm install (if you get errors try ‘npm config set legacy-peer-deps true’ first)
+npm start
+The website should run after powershell opens, and will be on the regsiter page.  Create a username and password (6 characters minimum)
+From here you can add stock symbols of your choosing to your watchlist (AAPL, TSLA, GOOG, etc.) You can click on each ticker box and it will give more detailed information.  Click on “DOCS” at top to see more information on APIs.
+
 
 The User Experience:
   - Portfolio graph view that shows gains/losses
