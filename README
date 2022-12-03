@@ -1,53 +1,26 @@
-Description: A stock market web application that allows users to login with secure credentials and simulate a trading environment (no real trades are placed). Orders are placed and exercised if the price is the same as the ask. 
+Description: A stock market web application that allows users to login with secure credentials
+and simulate a trading platform. Through usage of the provided api, users can create and test their own trading algorithms.
 
+PREREQUISITES: Node
 Running Instructions:
-Download the code from the git, 
-open a terminal window in the backend folder and the front end folder.
-In backend folder:
-npm install
-node index.js
-In frontend folder:
-npm install (if you get errors try ‘npm config set legacy-peer-deps true’ first)
-npm start
-The website should run after powershell opens, and will be on the regsiter page.  Create a username and password (6 characters minimum)
-From here you can add stock symbols of your choosing to your watchlist (AAPL, TSLA, GOOG, etc.) You can click on each ticker box and it will give more detailed information.  Click on “DOCS” at top to see more information on APIs.
 
+Clone the repo from git and open terminal windows in the backend and the frontend folder.
 
-The User Experience:
-  - Portfolio graph view that shows gains/losses
-  - Individual stock view (graph)
-  - View assets
-  - View OPEN/CLOSED orders
-  
-  
-The Stock (Graph) View:
-  - The graph line should follow the current reported price for the current stock. 
-  - The graph should have two phantom lines, one to represent the ESTIMATED high, one to represent the ESTIMATED low 
-  - Each point should represent a specific point in time for a stocks' lifetime
-  
-  
-Technologies to Consider:
-  - ReactJS
-  - Bootstrap (for UI elements)
-  - ExpressJS
-  - NextJS
-  - PostgreSQL
-  - MongoDB
-  - MySQL
-  
-  
-User Profile Data Structure: This data structure should represent one single user and all of their data.
-  - Username/Password
-  - Positions (assets owned, successfully placed order)
-  - Orders (ticket, qty, price, etc)
-    
+In backend folder (terminal):
+- npm install
+- node index.js
 
-The RESTful API: Essentially allow the user to query for relevant information about a stock
-  - Provides endpoints for the user to access specific information about their account
-  - Get price of specific stock
-  - Get historical prices
-  - Get running average over x amount of days
-  - Market Cap
-  - Etc
-    
-  
+In frontend folder (terminal):
+- npm install (if you get errors try ‘npm config set legacy-peer-deps true’ first)
+- npm start
+
+The website will run locally at http://localhost:3000, visit and create an account (6 characters minimum)
+From here you can add stock symbols of your choosing to your watchlist (AAPL, TSLA, GOOG, etc.)
+
+There is a maximum of 10 tracked tickers at a time on a single account.
+
+By left clicking on a ticker box it will give more detailed information about that specific ticker.
+By right clicking on a ticker box it will remove it from your tracked tickers.
+
+Click on “DOCS” at top to see more information on APIs.
+
