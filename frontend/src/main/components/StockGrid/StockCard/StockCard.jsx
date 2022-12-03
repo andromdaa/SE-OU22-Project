@@ -1,23 +1,25 @@
 import React, {useEffect, useState} from 'react';
 import {Box, Typography} from "@mui/material";
 import './stockcard.css';
-import {postAPI} from "../../../utils";
 import axios from "axios";
-import mapStateToProps, {removeFavorite, setFavorites, setSymbols} from "../../../features/user/userSlice";
+import mapStateToProps, {removeFavorite} from "../../../../features/user/userSlice";
 import {connect} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {createWorkerFactory, useWorker} from "@shopify/react-web-worker";
 
 const StockCard = ({ symbol, ...props }) => {
+    // used for state and setting state
     const [ gain, setGain ] = useState(false);
     const [ full_name, setName ] = useState("");
     const [ price, setPrice ] = useState(0);
     const [ pChange, setChange ] = useState(0);
-
     const navigate = useNavigate();
-    const createWorker = createWorkerFactory(() => import('../../workers/api.worker'));
+
+    // creates a web worker so that stocks update independently
+    const createWorker = createWorkerFactory(() => import('../../../workers/api.worker'));
     const worker = useWorker(createWorker);
 
+    // whenever the component is mounted, then every 5 seconds, update the stock information from the api
     let update = 0;
     useEffect(() => {
         ( async () => {
@@ -33,6 +35,8 @@ const StockCard = ({ symbol, ...props }) => {
 
             message = message.data;
 
+            // set the set values (to be used in the return value for rendering)
+
             setGain(parseInt(message.previousClose) < parseInt(message.currentPrice));
             setName(symbol);
             setPrice(message.ask);
@@ -44,16 +48,20 @@ const StockCard = ({ symbol, ...props }) => {
 
         })();
 
+        // set timeout, will cause update to increment every 5 seconds
         setTimeout(() => update++, 5000);
-    }, [update]);
+    }, [update, symbol, worker]); // this function depends on update to change to fire, so every 5 seconds update causes it to fire
 
-    // remove stock when clicked
     let handleClick = async (symbol, username, e) => {
         if(e.type === 'click') {
             navigate(`/stock/detailed/${symbol}`);
-        } else if(e.type === 'contextmenu') {
-            e.preventDefault();
+        } else if(e.type === 'contextmenu') {  // remove stock when right clicked
+            e.preventDefault(); // prevent default r click menu
 
+            // remove it locally for "speed"
+            props.dispatch(removeFavorite(symbol));
+
+            // define request options
             let config = {
                 method: 'post',
                 url: 'http://localhost:9000/favorites/remove',
@@ -67,19 +75,18 @@ const StockCard = ({ symbol, ...props }) => {
                 }
             };
 
-            await axios(config).then((res) => {
-                props.dispatch(removeFavorite(symbol));
-            });
+            // reflect local change in the database
+            await axios(config).then();
+
         }
     }
 
+    // what we are rendering - Box and Typography and from MUI (https://mui.com/material-ui/)
     return (
         <div className="grid_items card grow"
              onClick={ (event) => handleClick(symbol, props.username, event) }
              onContextMenu={ (event) => handleClick(symbol, props.username, event) }>
-            <Box elevation={8} sx={{
-                borderRadius: '10px',
-            }}>
+            <Box elevation={8} sx={{ borderRadius: '10px' }}>
                 <Box>
                     <Typography color="#333333" variant="subtitle2"><strong>{ symbol }</strong></Typography>
                     <Typography color="#999999" variant="caption">{ full_name }</Typography>
@@ -95,4 +102,5 @@ const StockCard = ({ symbol, ...props }) => {
     );
 };
 
+// connecting to our redux store which maps the state to our props (props.username)
 export default connect(mapStateToProps)(StockCard);

@@ -4,6 +4,8 @@ import {persistReducer, persistStore} from "redux-persist";
 import thunk from 'redux-thunk';
 import storageSession from 'reduxjs-toolkit-persist/lib/storage/session'
 
+
+// config for persistent data even on reload
 const persistConfig = {
   key: 'root',
   storage: storageSession,
@@ -11,6 +13,7 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, userReducer)
 
+// create redux store for global state
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: [ thunk ]

@@ -9,6 +9,7 @@ const initialState = {
     symbols: []
 }
 
+// redux tool usage, used to handle user actions as they navigate the site
 export const userSlice = createSlice({
     name: 'user',
     initialState,
@@ -23,12 +24,6 @@ export const userSlice = createSlice({
             return {
                 ...state,
                 authorized: false
-            }
-        },
-        setSymbols: (state, symbols) => {
-            return {
-                ...state,
-                symbols: symbols.payload
             }
         },
         setFavorites: (state, favorites) => {
@@ -49,9 +44,6 @@ export const userSlice = createSlice({
                 password: password.payload
             }
         },
-        addSymbol: (state, symbol) => {
-            state.symbols.push(symbol.payload);
-        },
         addFavorite: (state, favorite) => {
             if(!state.favorites.includes(favorite.payload)) state.favorites.push(favorite.payload);
         },
@@ -63,7 +55,7 @@ export const userSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(PURGE, (state) => {
+        builder.addCase(PURGE, (state) => { // called when the user logs out to destroy their data locally
             return {
                 username: '',
                 password: '',
@@ -75,6 +67,8 @@ export const userSlice = createSlice({
     }
 });
 
+// used at the bottom of components to wrap them in a connect wrapper, which will use this function to map state
+// to the components props
 const mapStateToProps = (state) => {
     return {
         username: state.username,
@@ -82,6 +76,5 @@ const mapStateToProps = (state) => {
     }
 }
 
-// Action creators are generated for each case reducer function
-export const { login, logout, setFavorites, setSymbols, setUsername, setPassword, addFavorite, removeFavorite } = userSlice.actions
+export const { login, logout, setFavorites, setUsername, setPassword, addFavorite, removeFavorite } = userSlice.actions
 export default userSlice.reducer

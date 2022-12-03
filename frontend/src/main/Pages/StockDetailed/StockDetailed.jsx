@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {createWorkerFactory, useWorker} from '@shopify/react-web-worker';
 import './stockdetailed.css'
-import {Box, Grid, Paper} from "@mui/material";
+import {Box, Button, Grid, Paper} from "@mui/material";
 
 function fillValues(data) {
     return {
@@ -26,18 +26,23 @@ function fillValues(data) {
     };
 }
 
+// the view when you left click on a stock
 export function StockDetailed({ ...props }) {
     let [ data, setData ] = useState( {} );
     let { symbol } = useParams();
+    const navigate = useNavigate();
 
     const formatter = new Intl.NumberFormat('en-US', {
        style: 'currency',
        currency: 'USD',
     });
 
+    // create a worked for the component that will fetch its most recent data
     const createWorker = createWorkerFactory(() => import('../../workers/api.worker'));
     const worker = useWorker(createWorker);
 
+    // track update to cause 5 second delay effect
+    // update stock information that is rendered to latest
     let update = 0;
     useEffect(() => {
         ( async () => {
@@ -53,12 +58,12 @@ export function StockDetailed({ ...props }) {
 
             let data = fillValues(message.data);
             setData(data);
-
         })();
 
         setTimeout(() => update++, 5000);
     }, [update, worker, symbol]);
 
+    // what we are rendering - Grid and Paper are from MUI (https://mui.com/material-ui/)
     return (
         <Grid container display="flex" justifyContent="center" alignContent="center">
             <Paper elevation={8} style={{ padding:'10px', marginTop: '10%' }}>
@@ -115,6 +120,7 @@ export function StockDetailed({ ...props }) {
                         </tr>
                     </tbody>
                 </table>
+                <div style={{ textAlign: "center" }}> <Button sx={{ m: '4%' }} variant="outlined" onClick={ () => navigate(-1) }>Go Back</Button> </div>
             </Paper>
         </Grid>
     );
